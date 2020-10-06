@@ -18,7 +18,7 @@ const CustomModal = ({ isModal, toggle, score }) => {
         formData.append('score', score);
 
         userApi.postCreate(formData).then(res => {
-            // debugger;
+            debugger;
             let { status, data: { user } } = res;
 
             if(status !== 'success' || !user) {

@@ -166,7 +166,7 @@ body {
 }
 
 .avatar {
-    height: auto;
+    height: 3rem;
     width: 3rem;
     background-size: cover;
     background-position: center;

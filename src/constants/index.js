@@ -1,0 +1,1 @@
+export const base_url = 'https://typing-speed-3324.herokuapp.com/api';

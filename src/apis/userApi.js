@@ -1,20 +1,21 @@
 import apiClient from './apiClient';
+import { base_url } from '../constants';
 
 class UserApi {
     postCreate(formData) {
-        let url = '/users';
+        let url = `${base_url}/users`;
 
         return apiClient.post(url, formData);
     }
 
     getLeaderBoard() {
-        let url = '/users/leaderBoard';
+        let url = `${base_url}/users/leaderBoard`;
 
         return apiClient.get(url);
     }
 
     getHistory(id) {
-        let url = `/users?id=${id}`;
+        let url = `${base_url}/users/${id}`;
 
         return apiClient.get(url);
     }

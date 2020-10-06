@@ -1,11 +1,26 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Container, Row, Col, Table } from 'reactstrap';
 import moment from 'moment';
 
 import { UserContext } from '../../components/providers/userProvider';
+import userApi from '../../apis/userApi';
 
 const History = () => {
     let { user } = useContext(UserContext);
+    let [historys, setHistorys] = useState([]);
+
+    useEffect(() => {
+        userApi.getHistory(user._id).then(res => {
+            let { status, data: { historys } } = res;
+
+            if (status !== 'success' || !historys) {
+                throw new Error('Có lỗi xảy ra');
+                return
+            }
+
+            setHistorys(currentHistorys => historys);
+        }).catch(err => console.log(err));
+    }, []);
 
     return (
         <Container>
@@ -24,10 +39,10 @@ const History = () => {
                             </thead>
                             <tbody>
                                 {
-                                    user.history.map((item, key) => (
+                                    historys.map((item, key) => (
                                         <tr>
                                             <th>{key + 1}</th>
-                                            <th><img className="avatar" src={`http://localhost:5000/${user.avatar}`} /></th>
+                                            <th><div className="avatar rounded-circle" style={{backgroundImage: `url(${user.avatar})`}}></div></th>
                                             <th>{user.name}</th>
                                             <th>{item.score}</th>
                                             <th>{moment(item.dateCreate).fromNow()}</th>

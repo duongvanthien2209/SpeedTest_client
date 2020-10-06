@@ -26,7 +26,7 @@ const LeaderBoard = () => {
             <Row>
                 <Col className="col-md-8 offset-md-2 d-flex align-items-center">
                     <div className="leaderBoard">
-                        <Table className="text-white">
+                        <Table className="text-white table-striped">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -39,12 +39,12 @@ const LeaderBoard = () => {
                             <tbody>
                                 {
                                     users.map((item, key) => {
-                                        console.log(item.avatar)
                                         return (
                                             <tr>
-                                                <th>{key + 1}</th>
+                                                <th >{key + 1}</th>
                                                 <th>
-                                                    <img className="avatar" src={`http://localhost:5000/${item.avatar}`} />
+                                                    {/* <img className="avatar" src={item.avatar} /> */}
+                                                    <div className="avatar rounded-circle" style={{backgroundImage: `url(${item.avatar})`}}></div>
                                                 </th>
                                                 <th>{item.name}</th>
                                                 <th>{item.score}</th>
