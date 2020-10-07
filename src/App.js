@@ -1,13 +1,16 @@
 import React from 'react';
 
-import './containers/main/main.css';
-
-import Routes from './routes';
+import './assets/css/_default.scss';
+// import Routes from './routes';
+import { Header1 } from './components';
+import { Main1 } from './containers';
 
 const App = () => {
   return (
     <div>
-      <Routes />
+      <Header1 />
+      <Main1 />
+      {/* <Routes /> */}
     </div>
   );
 };

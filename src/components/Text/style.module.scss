@@ -1,0 +1,16 @@
+.text {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 3rem;
+  background-color: #fff;
+
+  span {
+    font-size: 3rem;
+    font-weight: 500;
+  }
+
+  &__space {
+    height: 100%;
+    width: 1rem;
+  }
+}

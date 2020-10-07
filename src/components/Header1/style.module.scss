@@ -1,0 +1,14 @@
+.navbar-custom {
+  background-color: #0000006b !important;
+
+  &__brand {
+    font-size: 1.65rem;
+    font-weight: 400;
+  }
+
+  &__collapse {
+    a.nav-link {
+      font-size: 1.15rem;
+    }
+  }
+}
