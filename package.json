@@ -26,10 +26,11 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "react-toastify": "^6.0.9",
     "reactstrap": "^8.5.1"
   },
   "scripts": {
-    "lint": "eslint --ext js,jsx,.ts,.tsx .",
+    "lint": "eslint src --ext js,jsx,.ts,.tsx .",
     "lint:fix": "eslint --fix --ext js,jsx,.ts,.tsx .",
     "start": "react-scripts start",
     "build": "react-scripts build",

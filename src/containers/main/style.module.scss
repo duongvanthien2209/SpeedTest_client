@@ -1,0 +1,27 @@
+@import '../../assets/css/vars';
+
+.main__input {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  z-index: -999;
+}
+
+.main__button__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 40vh;
+
+  .main__button {
+    border: none;
+    height: 3rem;
+    width: 5rem;
+    border-radius: 1rem;
+    background: $secondary_linear_color;
+    color: #fff;
+    box-shadow: 5px 5px 15px #00000014;
+  }
+}

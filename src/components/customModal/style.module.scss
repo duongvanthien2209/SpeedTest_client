@@ -1,0 +1,60 @@
+@import '../../assets/css/vars';
+
+.custom-modal {
+  &__header {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background: $secondary_linear_color;
+    border-radius: .3rem .3rem 0 0;
+
+    img {
+      height: 8rem;
+      width: 8rem;
+      margin-right: 1rem;
+    }
+
+    &__content {
+      flex-grow: 1;
+      text-align: center;
+
+      h4 {
+        font-size: 2rem;
+        color: #fff;
+      }
+
+      p {
+        font-size: 1.15rem;
+        font-weight: 500;
+        span {
+          font-size: 1.3rem;
+          font-weight: 600;
+          color: #FC00FF;
+        }
+      }
+    }
+  }
+
+  &__form-group {
+    p {
+      margin-bottom: .5rem;
+    }
+
+    label {
+      padding: .5rem 1rem;
+      background: $secondary_linear_color;
+      color: #fff;
+      font-size: 1.15rem;
+      font-weight: 500;
+      border-radius: .5rem;
+
+      &:hover {
+        background: #00dbde;
+      }
+
+      &:active {
+        background: #fc00ff;
+      }
+    }
+  }
+}

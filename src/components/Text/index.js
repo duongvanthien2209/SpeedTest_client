@@ -13,7 +13,11 @@ const Text = ({ texts, input, start }) => {
         }
 
         return p === ' ' ? (
-          <div className={cls.text__space}></div>
+          <div
+            key={key}
+            className={cls.text__space}
+            style={{ backgroundColor: color }}
+          ></div>
         ) : (
           <span style={{ backgroundColor: color }} key={key}>
             {p}

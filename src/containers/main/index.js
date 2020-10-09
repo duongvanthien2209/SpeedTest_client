@@ -1,185 +1,201 @@
 import React, { Component } from 'react';
+// Font Awesome
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRedo, faPlay } from '@fortawesome/free-solid-svg-icons';
 
-import { Container, Row, Col } from 'reactstrap';
+import { Test, Text, CustomModal } from '../../components';
+import cls from './style.module.scss';
 
-import { StartButton, Test, CustomModal } from '../../components';
+// Constant
+import { base_sec, base_letters } from '../../constants';
 
 import textApi from '../../apis/textApi';
 
 const initialState = {
   text: '',
+  currentTexts: [],
   userInput: '',
+  startNumber: 0,
+  endNumber: base_letters,
   symbols: 0,
-  sec: 0,
-  started: false,
-  finished: false,
-  buttonDisable: false,
-  isModal: false
+  sec: base_sec,
+  modal: false,
+  isButton: false,
+  isStart: false,
 };
 
-class Main extends Component {
+class Main1 extends Component {
   constructor(props) {
     super(props);
 
-    this.inputElement = React.createRef();
     this.state = initialState;
-    this.onRestart = this.onRestart.bind(this);
-    this.onChangeUserInput = this.onChangeUserInput.bind(this);
-    this.setTimer = this.setTimer.bind(this);
-    this.onFinish = this.onFinish.bind(this);
-    this.onClickStart = this.onClickStart.bind(this);
+    this.inputElement = React.createRef();
+
     this.toggle = this.toggle.bind(this);
+    this.onChangeInput = this.onChangeInput.bind(this);
+    this.countSymbols = this.countSymbols.bind(this);
+    this.onFinish = this.onFinish.bind(this);
+    this.onStart = this.onStart.bind(this);
+    this.reStart = this.reStart.bind(this);
+    this.fetchData = this.fetchData.bind(this);
   }
 
   componentDidMount() {
-    textApi
-      .getRandomText()
-      .then(res => {
-        let {
-          status,
-          data: { text }
-        } = res;
-
-        if (status !== 'success' || !text) {
-          throw new Error('Có lỗi xảy ra');
-        }
-
-        this.setState(currentState => ({
-          ...currentState,
-          text
-        }));
-      })
-      // eslint-disable-next-line no-console
-      .catch(err => console.log(err));
+    this.props.setIsWaiting(currentIsWaiting => true);
+    this.fetchData();
   }
 
-  onRestart() {
-    this.setState(initialState);
+  async fetchData() {
+    try {
+      let {
+        status,
+        data: { text },
+      } = await textApi.getRandomText();
 
-    textApi
-      .getRandomText()
-      .then(res => {
-        // debugger;
-        let {
-          status,
-          data: { text }
-        } = res;
+      if (status !== 'success' || !text) {
+        throw new Error('Có lỗi xảy ra');
+      }
 
-        if (status !== 'success' || !text) {
-          throw new Error('Có lỗi xảy ra');
-        }
-
-        this.setState(currentState => ({
-          ...currentState,
-          text
-        }));
-      })
-      // eslint-disable-next-line no-console
-      .catch(err => console.log(err));
-  }
-
-  onChangeUserInput(evt) {
-    let value = evt.target.value;
-    this.setTimer();
-    this.onFinish(value);
-    this.setState({
-      userInput: value,
-      symbols: this.countCorrectSymbols(value)
-    });
-  }
-
-  countCorrectSymbols(userInput) {
-    const text = this.state.text.replace(' ', '');
-    return userInput
-      .replace(' ', '')
-      .split('')
-      .filter((s, i) => s === text[i]).length;
-  }
-
-  setTimer() {
-    if (!this.state.started) {
-      this.setState({
-        started: true
+      this.setState(currentState => ({
+        text,
+        currentTexts: text
+          .split('')
+          .slice(this.state.startNumber, this.state.endNumber),
+      }));
+      this.props.setIsWaiting(currentIsWaiting => false);
+    } catch (error) {
+      this.props.toast.error('Không tải được dữ liệu, vui lòng thử lại', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
       });
-      this.interval = setInterval(() => {
-        this.setState(prevProps => {
-          return {
-            sec: prevProps.sec + 1
-          };
-        });
-      }, 1000);
+      this.props.setIsWaiting(currentIsWaiting => false);
+      return;
     }
-  }
-
-  onFinish(userInput) {
-    if (userInput.length === this.state.text.length) {
-      clearInterval(this.interval);
-      this.setState({
-        finished: true,
-        isModal: true
-      });
-    }
-  }
-
-  onClickStart() {
-    this.setState({
-      buttonDisable: true
-    });
-    this.setTimer();
-    this.inputElement.current.focus();
   }
 
   toggle() {
-    this.setState({
-      isModal: !this.state.isModal
-    });
+    this.setState(currentState => ({
+      modal: !this.state.modal,
+    }));
+  }
+
+  onChangeInput(evt) {
+    if (this.state.isStart) {
+      let value = evt.target.value;
+
+      if (
+        value.length > this.state.userInput.length &&
+        this.state.userInput.length - this.state.startNumber > 5
+      ) {
+        this.setState(currentState => ({
+          startNumber: this.state.startNumber + 1,
+          endNumber: this.state.endNumber + 1,
+          currentTexts: this.state.text
+            .split('')
+            .slice(this.state.startNumber + 1, this.state.endNumber + 1),
+        }));
+      }
+
+      this.setState(currentState => ({
+        symbols: this.countSymbols(value),
+        userInput: value,
+      }));
+    }
+  }
+
+  countSymbols(input) {
+    const countTexts = this.state.text.replace(' ', '');
+    return this.state.userInput
+      .replace(' ', '')
+      .split('')
+      .filter((s, i) => s === countTexts[i]).length;
+  }
+
+  onFinish() {
+    clearInterval(this.interval);
+    this.setState(currentState => ({
+      isStart: false,
+    }));
+    this.toggle();
+  }
+
+  onStart() {
+    this.interval = setInterval(
+      (() => {
+        if (this.state.sec === 0) {
+          this.onFinish();
+        } else {
+          this.setState(currentState => ({
+            sec: this.state.sec - 1,
+          }));
+        }
+        // eslint-disable-next-line no-extra-bind
+      }).bind(this),
+      1000,
+    );
+    this.setState(currentState => ({
+      isStart: true,
+      isButton: true,
+    }));
+    this.inputElement.current.focus();
+  }
+
+  reStart() {
+    clearInterval(this.interval);
+    this.setState(currentState => initialState);
+    this.fetchData();
   }
 
   render() {
     let wpm = 0;
 
-    if (this.state.symbols !== 0 && this.state.sec !== 0) {
-      wpm = Math.round(this.state.symbols / 5 / (this.state.sec / 60));
+    if (this.state.symbols !== 0 && 120 - this.state.sec !== 0) {
+      wpm = Math.round(this.state.symbols / 5 / ((120 - this.state.sec) / 60));
     }
 
+    let accuracy =
+      this.state.userInput.trim().length &&
+      Math.round(
+        (this.state.symbols * 100) / this.state.userInput.trim().length,
+      );
+
     return (
-      <Container>
-        <Row>
-          <Col className="col-md-6 offset-md-3 d-flex align-items-center">
-            <div className="wrapper">
-              <StartButton
-                buttonDisable={this.state.buttonDisable}
-                onClick={this.onClickStart}
-              />
+      <div>
+        <Test wpm={wpm} sec={this.state.sec} accuracy={accuracy} />
+        <Text
+          texts={this.state.currentTexts}
+          input={this.state.userInput}
+          start={this.state.startNumber}
+        />
+        <input
+          className={cls.main__input}
+          ref={this.inputElement}
+          value={this.state.userInput}
+          onChange={this.onChangeInput}
+        />
+        <div className={cls.main__button__wrapper}>
+          <button
+            className={cls.main__button}
+            onClick={this.state.isButton ? this.reStart : this.onStart}
+          >
+            <FontAwesomeIcon icon={this.state.isButton ? faRedo : faPlay} />
+          </button>
+        </div>
 
-              <Test
-                buttonDisable={this.state.buttonDisable}
-                text={this.state.text}
-                userInput={this.state.userInput}
-                wpm={wpm}
-                onRestart={this.onRestart}
-              />
-              <input
-                style={{ opacity: 0, 'z-index': -2 }}
-                ref={this.inputElement}
-                type="text"
-                value={this.state.userInput}
-                onChange={this.onChangeUserInput}
-                readOnly={this.state.finished}
-              />
-
-              <CustomModal
-                isModal={this.state.isModal}
-                toggle={this.toggle}
-                score={wpm}
-              />
-              {/* <button onClick={this.toggle}>Modal</button> */}
-            </div>
-          </Col>
-        </Row>
-      </Container>
+        <CustomModal
+          isModal={this.state.modal}
+          toggle={this.toggle}
+          score={wpm}
+          accuracy={accuracy}
+        />
+      </div>
     );
   }
 }
 
-export default Main;
+export default Main1;

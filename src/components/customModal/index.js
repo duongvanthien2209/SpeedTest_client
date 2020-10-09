@@ -1,71 +1,153 @@
 import React, { useState, useContext } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, Label, FormGroup, Input } from 'reactstrap';
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Form,
+  Label,
+  FormGroup,
+  Input,
+} from 'reactstrap';
+
+import cls from './style.module.scss';
+
+// Images
+import beach from '../../assets/images/beach.png';
 
 import userApi from '../../apis/userApi';
 import { UserContext } from '../providers/userProvider';
+import { WaitingContext } from '../providers/waitingProvider';
+import { ToastContext } from '../providers/toastProvider';
 
+const CustomModal = ({ isModal, toggle, score, accuracy }) => {
+  let { setUser } = useContext(UserContext);
+  let { setIsWaiting } = useContext(WaitingContext);
+  let { toast } = useContext(ToastContext);
 
-const CustomModal = ({ isModal, toggle, score }) => {
-    let { setUser } = useContext(UserContext);
-    let [name, setName] = useState('');
-    let [file, setFile] = useState(null);
+  let [name, setName] = useState('');
+  let [file, setFile] = useState(null);
 
-    const onsubmit = () => {
-        let formData = new FormData();
-        
-        formData.append('name', name);
-        formData.append('avatar', file);
-        formData.append('score', score);
+  const onsubmit = () => {
+    // Set waiting
+    toggle();
+    setIsWaiting(currentIsWaiting => true);
 
-        userApi.postCreate(formData).then(res => {
-            debugger;
-            let { status, data: { user } } = res;
+    let formData = new FormData();
 
-            if(status !== 'success' || !user) {
-                throw new Error('Có lỗi xảy ra');
-                return;
-            }
+    formData.append('name', name);
+    formData.append('avatar', file);
+    formData.append('score', score);
+    formData.append('accuracy', accuracy);
 
-            // Set user
-            toggle();
-            setUser(currentState => user);
-        }).catch(err => console.log(err));
+    fetchData(formData);
+  };
+
+  const fetchData = async formData => {
+    try {
+      let {
+        status,
+        data: { user },
+      } = await userApi.postCreate(formData);
+
+      if (status !== 'success' || !user) {
+        throw new Error('Có lỗi xảy ra');
+      }
+
+      setIsWaiting(currentIsWaiting => false);
+      // Thông báo thành công
+      toast.success('Bạn đã lưu thành công', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      // Set modal default
+      setName(currentName => '');
+      setFile(curreentFile => null);
+      setUser(currentState => user);
+    } catch (error) {
+      setIsWaiting(currentIsWaiting => false);
+      toast.error('Thông tin của bạn chưa được lưu', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      // Set modal default
+      setName(currentName => '');
+      setFile(curreentFile => null);
+      // setUser(currentState => user);
+      return;
     }
+  };
 
-    return (
-        <Modal isOpen={isModal} toggle={toggle}>
-            <ModalHeader toggle={toggle}>Hoàn thành</ModalHeader>
-            <ModalBody>
-                <Form>
-                    <FormGroup>
-                        <Label for="name">Tên</Label>
-                        <Input
-                            id="name"
-                            type="text"
-                            name="name"
-                            placeholder="Nhập tên của bạn..."
-                            value={name}
-                            onChange={evt => setName(evt.target.value)}
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="avatar">Ảnh đại diện</Label>
-                        <Input
-                            id="avatar"
-                            type="file"
-                            name="avatar"
-                            onChange={evt => setFile(evt.target.files[0])}
-                        />
-                    </FormGroup>
-                </Form>
-            </ModalBody>
-            <ModalFooter>
-                <Button color="primary" onClick={onsubmit}>Lưu</Button>
-                <Button color="danger" onClick={toggle}>Hủy</Button>
-            </ModalFooter>
-        </Modal>
-    );
+  return (
+    <div>
+      <Modal className={cls['custom-modal']} isOpen={isModal} toggle={toggle}>
+        <div className={cls['custom-modal__header']}>
+          <img src={beach} alt="congrulation" />
+          <div className={cls['custom-modal__header__content']}>
+            <h4>Chúc mừng bạn</h4>
+            <p>
+              Bạn đã đạt tốc độ <span>{score} WPM</span>
+              <br />
+              Tỷ lệ chính xác là <span>{accuracy} %</span>
+              <br />
+              Tuyệt vời!
+            </p>
+          </div>
+        </div>
+        <ModalHeader toggle={toggle}>Hoàn thành</ModalHeader>
+        <ModalBody>
+          <Form>
+            <FormGroup>
+              <Label for="name">Tên</Label>
+              <Input
+                id="name"
+                type="text"
+                name="name"
+                placeholder="Nhập tên của bạn..."
+                value={name}
+                onChange={evt => setName(evt.target.value)}
+              />
+            </FormGroup>
+            <div className={cls['custom-modal__form-group']}>
+              <p>Ảnh đại diện</p>
+              <Label for="avatar">Chọn file</Label>
+              <Input
+                id="avatar"
+                type="file"
+                name="avatar"
+                onChange={evt => {
+                  setFile(evt.target.files[0]);
+                }}
+                hidden
+              />
+              <span className="ml-2">
+                {file ? file.name : 'Bạn chưa chọn ảnh'}
+              </span>
+            </div>
+          </Form>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={onsubmit}>
+            Lưu
+          </Button>
+          <Button color="danger" onClick={toggle}>
+            Hủy
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </div>
+  );
 };
 
 export default CustomModal;
-

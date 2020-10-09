@@ -1,16 +1,25 @@
 import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import './assets/css/_default.scss';
-// import Routes from './routes';
-import { Header1 } from './components';
-import { Main1 } from './containers';
+
+import UserProvider from './components/providers/userProvider';
+import WaitingProvider from './components/providers/waitingProvider';
+import ToastProvider from './components/providers/toastProvider';
+import Routes from './routes';
 
 const App = () => {
   return (
     <div>
-      <Header1 />
-      <Main1 />
-      {/* <Routes /> */}
+      <Router>
+        <UserProvider>
+          <WaitingProvider>
+            <ToastProvider>
+              <Routes />
+            </ToastProvider>
+          </WaitingProvider>
+        </UserProvider>
+      </Router>
     </div>
   );
 };

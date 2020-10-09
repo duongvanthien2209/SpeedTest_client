@@ -1,5 +1,6 @@
-export { default as Main } from './main';
-export { default as LeaderBoard } from './leaderBoard';
-export { default as History } from './history';
+export { default as LeaderBoard } from './LeaderBoard';
+export { default as History } from './History';
 
-export { default as Main1 } from './Main1';
+export { default as Main } from './Main';
+export { default as MainWrapper } from './Main/mainWrapper';
+export { default as PageNotFound } from './NotFoundPage';

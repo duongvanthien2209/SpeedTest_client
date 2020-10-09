@@ -1,30 +1,19 @@
 import React from 'react';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-} from "react-router-dom";
+import { Switch, Route } from 'react-router-dom';
 
-import { Header } from '../components';
-import { Main, LeaderBoard, History } from '../containers';
+import { MainWrapper, LeaderBoard, History, PageNotFound } from '../containers';
 import PrivateRoute from './privateRoute';
-import UserProvider from '../components/providers/userProvider';
+import PublicRoute from './publicRoute';
 
 const Routes = () => {
-    return (
-        <Router>
-            <UserProvider>
-                <Header />
-
-                <Switch>
-                    <Route exact path="/leaderBoard" component={LeaderBoard} />
-                    <PrivateRoute path="/history" component={History} />
-                    <Route path="/" component={Main} />
-                </Switch>
-            </UserProvider>
-        </Router>
-    );
+  return (
+    <Switch>
+      <PublicRoute exact path="/leaderBoard" component={LeaderBoard} />
+      <PrivateRoute exact path="/history" component={History} />
+      <PublicRoute exact path="/" component={MainWrapper} />
+      <Route component={PageNotFound} />
+    </Switch>
+  );
 };
 
 export default Routes;

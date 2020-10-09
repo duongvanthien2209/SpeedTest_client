@@ -1,46 +1,30 @@
 import React from 'react';
-import classNames from 'classnames';
+import { Col, Container, Row } from 'reactstrap';
 
-// Font Awesome
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRedo } from '@fortawesome/free-solid-svg-icons';
+import cls from './style.module.scss';
 
-import { Input, Button } from 'reactstrap';
-
-const Test = ({ buttonDisable, text, userInput, wpm, onRestart }) => {
-  text = text.split('');
-
+const Test = ({ wpm, sec, accuracy }) => {
   return (
-    <div className={classNames('test', { 'test-able': buttonDisable })}>
-      <div className="test__number">
-        <h1>{wpm}</h1>
-        <span>Wpm</span>
-      </div>
-
-      <div className="test__content text-white">
-        {text.map((s, i) => {
-          let color;
-          if (i < userInput.length) {
-            color = s === userInput[i] ? '#dfffa0' : '#fcbea4';
-          }
-
-          return (
-            <span key={i} style={{ background: color }}>
-              {s}
-            </span>
-          );
-        })}
-      </div>
-
-      <Button
-        outline
-        color="primary"
-        className="test__button btn-lg"
-        onClick={onRestart}
-      >
-        <FontAwesomeIcon icon={faRedo} />
-      </Button>
-    </div>
+    <Container>
+      <Row>
+        <Col md="6" className="offset-md-3">
+          <div className={cls.wrapper}>
+            <div className={cls.wrapper__wpm}>
+              <p>{wpm}</p>
+              <span>WPM</span>
+            </div>
+            <div className={cls.wrapper__accuracy}>
+              <p>{accuracy}</p>
+              <span>% TỶ LỆ</span>
+            </div>
+            <div className={cls.wrapper__sec}>
+              <p>{sec}</p>
+              <span>GIÂY</span>
+            </div>
+          </div>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

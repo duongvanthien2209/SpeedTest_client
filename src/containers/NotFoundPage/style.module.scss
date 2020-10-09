@@ -1,0 +1,30 @@
+.page__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 100vh;
+  width: 100vw;
+
+  .page { 
+    display: flex;
+    align-items: center;
+
+    img {
+      height: 10rem;
+      width: 10rem;
+      margin-right: 3rem;
+    }
+
+    &__content {
+      text-align: center;
+      h1 {
+        font-size: 5rem;
+      }
+
+      p {
+        font-size: 2rem;
+      }
+    }
+  }
+}
