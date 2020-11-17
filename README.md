@@ -34,6 +34,17 @@
 ### Build for production
 *** 
 `npm run build`
+### Depploy App using Surge
+***
+#### Cài package Surge ở global
+`npm i -g surge`
+#### Chuyển tới thư mục build
+`cd build`
+#### Chạy câu lệnh
+`surge`
+*Ở lần chạy đầu tiên bạn cần phải nhập email và password để tạo tài khoản*
+*Bạn có thể thay đổi domain bằng cách*
+`domain: <project-name>.surge.sh` 
 ## Thông tin
 ### Author
 ***
