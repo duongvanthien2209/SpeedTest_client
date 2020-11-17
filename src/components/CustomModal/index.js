@@ -17,9 +17,9 @@ import cls from './style.module.scss';
 import beach from '../../assets/images/beach.png';
 
 import userApi from '../../apis/userApi';
-import { UserContext } from '../providers/userProvider';
-import { WaitingContext } from '../providers/waitingProvider';
-import { ToastContext } from '../providers/toastProvider';
+import { UserContext } from '../Providers/userProvider';
+import { WaitingContext } from '../Providers/waitingProvider';
+import { ToastContext } from '../Providers/toastProvider';
 
 const CustomModal = ({ isModal, toggle, score, accuracy }) => {
   let { setUser } = useContext(UserContext);

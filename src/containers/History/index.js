@@ -3,9 +3,9 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Container, Row, Col, Table } from 'reactstrap';
 import moment from 'moment';
 
-import { UserContext } from '../../components/providers/userProvider';
-import { WaitingContext } from '../../components/providers/waitingProvider';
-import { ToastContext } from '../../components/providers/toastProvider';
+import { UserContext } from '../../components/Providers/userProvider';
+import { WaitingContext } from '../../components/Providers/waitingProvider';
+import { ToastContext } from '../../components/Providers/toastProvider';
 
 import userApi from '../../apis/userApi';
 

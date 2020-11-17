@@ -7,8 +7,8 @@ import cls from './style.module.scss';
 import userApi from '../../apis/userApi';
 
 // Contexts
-import { WaitingContext } from '../../components/providers/waitingProvider';
-import { ToastContext } from '../../components/providers/toastProvider';
+import { WaitingContext } from '../../components/Providers/waitingProvider';
+import { ToastContext } from '../../components/Providers/toastProvider';
 
 const LeaderBoard = () => {
   let [users, setUsers] = useState([]);

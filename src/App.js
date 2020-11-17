@@ -3,9 +3,9 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import './assets/css/_default.scss';
 
-import UserProvider from './components/providers/userProvider';
-import WaitingProvider from './components/providers/waitingProvider';
-import ToastProvider from './components/providers/toastProvider';
+import UserProvider from './components/Providers/userProvider';
+import WaitingProvider from './components/Providers/waitingProvider';
+import ToastProvider from './components/Providers/toastProvider';
 import Routes from './routes';
 
 const App = () => {

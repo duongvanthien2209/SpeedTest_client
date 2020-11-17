@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
-import { WaitingContext } from '../../components/providers/waitingProvider';
-import { ToastContext } from '../../components/providers/toastProvider';
+import { WaitingContext } from '../../components/Providers/waitingProvider';
+import { ToastContext } from '../../components/Providers/toastProvider';
 import Main from './index';
 
 const MainWrapper = () => {

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-import { UserContext } from '../components/providers/userProvider';
+import { UserContext } from '../components/Providers/userProvider';
 
 import { Header } from '../components';
 

@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
 // Context
-import { UserContext } from '../providers/userProvider';
+import { UserContext } from '../Providers/userProvider';
 
 // Font Awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
