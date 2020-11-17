@@ -1,7 +1,9 @@
 import axios from 'axios';
 import queryString from 'query-string';
+import { base_url } from '../constants/index';
 
 const axiosClient = axios.create({
+  baseURL: base_url,
   headers: { 'content-type': 'application/json' },
   // headers: { 'content-type': 'multipart/form-data' },
   paramsSerializer: params => queryString.stringify(params),
