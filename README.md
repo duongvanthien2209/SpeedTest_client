@@ -41,10 +41,10 @@
 #### Chuyển tới thư mục build
 `cd build`
 #### Chạy câu lệnh
-`surge`
-*Ở lần chạy đầu tiên bạn cần phải nhập email và password để tạo tài khoản*
-*Bạn có thể thay đổi domain bằng cách*
-`domain: <project-name>.surge.sh` 
+* `surge`
+* *Ở lần chạy đầu tiên bạn cần phải nhập email và password để tạo tài khoản*
+* *Bạn có thể thay đổi domain bằng cách*
+* `domain: <project-name>.surge.sh` 
 ## Thông tin
 ### Author
 ***
