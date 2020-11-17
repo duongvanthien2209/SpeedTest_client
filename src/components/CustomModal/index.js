@@ -72,15 +72,7 @@ const CustomModal = ({ isModal, toggle, score, accuracy }) => {
       setUser(currentState => user);
     } catch (error) {
       setIsWaiting(currentIsWaiting => false);
-      toast.error('Thông tin của bạn chưa được lưu', {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.error('Thông tin của bạn chưa được lưu');
       // Set modal default
       setName(currentName => '');
       setFile(curreentFile => null);

@@ -31,15 +31,7 @@ const History = () => {
       setHistorys(currentHistorys => historys);
       setIsWaiting(currentIsWaiting => false);
     } catch (error) {
-      toast.error('Không tải được dữ liệu, vui lòng thử lại', {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.error('Không tải được dữ liệu, vui lòng thử lại');
       setIsWaiting(currentIsWaiting => false);
       return;
     }

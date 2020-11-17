@@ -64,15 +64,7 @@ class Main1 extends Component {
       }));
       this.props.setIsWaiting(currentIsWaiting => false);
     } catch (error) {
-      this.props.toast.error('Không tải được dữ liệu, vui lòng thử lại', {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      this.props.toast.error('Không tải được dữ liệu, vui lòng thử lại');
       this.props.setIsWaiting(currentIsWaiting => false);
       return;
     }
